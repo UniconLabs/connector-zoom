@@ -75,6 +75,12 @@ public class ZoomUsersAdapter extends BaseAdapter<ZoomUser, ZoomConfiguration> {
     result.add(new ConnectorAttribute(SITE_CODE.name(), INTEGER));
     result.add(new ConnectorAttribute(ZOOM_ONE_FEATURE_TYPE.name(), STRING, NOT_UPDATEABLE));
     // result.add(new ConnectorAttribute(SMS_ENABLED.name(), BOOLEAN));
+
+    result.add(new ConnectorAttribute(LOCATION.name(), STRING));
+    result.add(new ConnectorAttribute(COMPANY.name(), STRING));
+    result.add(new ConnectorAttribute(DEPARTMENT.name(), STRING));
+    result.add(new ConnectorAttribute(JOB_TITLE.name(), STRING));
+    result.add(new ConnectorAttribute(MANAGER.name(), STRING));
     return result;
   }
 
@@ -128,6 +134,17 @@ public class ZoomUsersAdapter extends BaseAdapter<ZoomUser, ZoomConfiguration> {
     user.setPersonalMeetingId(
         AdapterValueTypeConverter.getSingleAttributeValue(
             Long.class, attributes, PERSONAL_MEETING_ID));
+
+    user.setLocation(
+        AdapterValueTypeConverter.getSingleAttributeValue(String.class, attributes, LOCATION));
+    user.setCompany(
+        AdapterValueTypeConverter.getSingleAttributeValue(String.class, attributes, COMPANY));
+    user.setDepartment(
+        AdapterValueTypeConverter.getSingleAttributeValue(String.class, attributes, DEPARTMENT));
+    user.setJobTitle(
+        AdapterValueTypeConverter.getSingleAttributeValue(String.class, attributes, JOB_TITLE));
+    user.setManager(
+        AdapterValueTypeConverter.getSingleAttributeValue(String.class, attributes, MANAGER));
 
     user.setGroupsToRemove(readAssignments(multiValueRemoved, GROUP_IDS));
     user.setGroupsToAdd(readAssignments(multiValueAdded, GROUP_IDS));
@@ -195,6 +212,11 @@ public class ZoomUsersAdapter extends BaseAdapter<ZoomUser, ZoomConfiguration> {
 
     attributes.add(AttributeBuilder.build(FIRST_NAME.name(), user.getFirstName()));
     attributes.add(AttributeBuilder.build(LAST_NAME.name(), user.getLastName()));
+    attributes.add(AttributeBuilder.build(LOCATION.name(), user.getLocation()));
+    attributes.add(AttributeBuilder.build(COMPANY.name(), user.getCompany()));
+    attributes.add(AttributeBuilder.build(DEPARTMENT.name(), user.getDepartment()));
+    attributes.add(AttributeBuilder.build(JOB_TITLE.name(), user.getJobTitle()));
+    attributes.add(AttributeBuilder.build(MANAGER.name(), user.getManager()));
     attributes.add(AttributeBuilder.build(LANGUAGE.name(), user.getLanguage()));
     attributes.add(AttributeBuilder.build(TIME_ZONE.name(), user.getTimezone()));
 

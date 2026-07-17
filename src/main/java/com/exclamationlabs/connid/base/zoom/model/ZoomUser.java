@@ -60,13 +60,43 @@ public class ZoomUser implements IdentityModel {
 
   private transient ZoomPhoneUserProfile phoneProfile;
   private transient ZoomPhoneSite site;
+  private String company;
+
+  @SerializedName("dept")
+  private String department;
+
+  @SerializedName("job_title")
+  private String jobTitle;
+
+  private String location;
+  private String manager;
   private String status;
   private String timezone;
   private Integer type;
   private String verified;
 
+  public String getCompany() {
+    return company;
+  }
+
   public String getCreatedAt() {
     return createdAt;
+  }
+
+  public String getDepartment() {
+    return department;
+  }
+
+  public String getJobTitle() {
+    return jobTitle;
+  }
+
+  public String getLocation() {
+    return location;
+  }
+
+  public String getManager() {
+    return manager;
   }
 
   public String getEmail() {
@@ -167,8 +197,28 @@ public class ZoomUser implements IdentityModel {
     return verified;
   }
 
+  public void setCompany(String company) {
+    this.company = company;
+  }
+
   public void setCreatedAt(String createdAt) {
     this.createdAt = createdAt;
+  }
+
+  public void setDepartment(String department) {
+    this.department = department;
+  }
+
+  public void setJobTitle(String jobTitle) {
+    this.jobTitle = jobTitle;
+  }
+
+  public void setLocation(String location) {
+    this.location = location;
+  }
+
+  public void setManager(String manager) {
+    this.manager = manager;
   }
 
   public void setEmail(String email) {
