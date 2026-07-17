@@ -81,6 +81,21 @@ public class ZoomUsersAdapter extends BaseAdapter<ZoomUser, ZoomConfiguration> {
     result.add(new ConnectorAttribute(DEPARTMENT.name(), STRING));
     result.add(new ConnectorAttribute(JOB_TITLE.name(), STRING));
     result.add(new ConnectorAttribute(MANAGER.name(), STRING));
+
+    result.add(new ConnectorAttribute(COST_CENTER.name(), STRING));
+    result.add(new ConnectorAttribute(DISPLAY_NAME.name(), STRING));
+    result.add(new ConnectorAttribute(ROLE_ID.name(), STRING));
+    result.add(new ConnectorAttribute(ROLE_NAME.name(), STRING, NOT_UPDATEABLE));
+    result.add(new ConnectorAttribute(USE_PMI.name(), BOOLEAN));
+    result.add(new ConnectorAttribute(PRONOUNS.name(), STRING));
+    result.add(new ConnectorAttribute(PRONOUNS_OPTION.name(), INTEGER));
+    result.add(new ConnectorAttribute(EMPLOYEE_UNIQUE_ID.name(), STRING, NOT_CREATABLE, NOT_UPDATEABLE));
+    result.add(new ConnectorAttribute(PERSONAL_MEETING_URL.name(), STRING, NOT_CREATABLE, NOT_UPDATEABLE));
+    result.add(new ConnectorAttribute(VANITY_URL.name(), STRING, NOT_CREATABLE, NOT_UPDATEABLE));
+    result.add(new ConnectorAttribute(PIC_URL.name(), STRING, NOT_CREATABLE, NOT_UPDATEABLE));
+    result.add(new ConnectorAttribute(ACCOUNT_ID.name(), STRING, NOT_CREATABLE, NOT_UPDATEABLE));
+    result.add(new ConnectorAttribute(LAST_CLIENT_VERSION.name(), STRING, NOT_CREATABLE, NOT_UPDATEABLE));
+    result.add(new ConnectorAttribute(JID.name(), STRING, NOT_CREATABLE, NOT_UPDATEABLE));
     return result;
   }
 
@@ -145,6 +160,18 @@ public class ZoomUsersAdapter extends BaseAdapter<ZoomUser, ZoomConfiguration> {
         AdapterValueTypeConverter.getSingleAttributeValue(String.class, attributes, JOB_TITLE));
     user.setManager(
         AdapterValueTypeConverter.getSingleAttributeValue(String.class, attributes, MANAGER));
+    user.setCostCenter(
+        AdapterValueTypeConverter.getSingleAttributeValue(String.class, attributes, COST_CENTER));
+    user.setDisplayName(
+        AdapterValueTypeConverter.getSingleAttributeValue(String.class, attributes, DISPLAY_NAME));
+    user.setRoleId(
+        AdapterValueTypeConverter.getSingleAttributeValue(String.class, attributes, ROLE_ID));
+    user.setUsePmi(
+        AdapterValueTypeConverter.getSingleAttributeValue(Boolean.class, attributes, USE_PMI));
+    user.setPronouns(
+        AdapterValueTypeConverter.getSingleAttributeValue(String.class, attributes, PRONOUNS));
+    user.setPronounsOption(
+        AdapterValueTypeConverter.getSingleAttributeValue(Integer.class, attributes, PRONOUNS_OPTION));
 
     user.setGroupsToRemove(readAssignments(multiValueRemoved, GROUP_IDS));
     user.setGroupsToAdd(readAssignments(multiValueAdded, GROUP_IDS));
@@ -217,6 +244,20 @@ public class ZoomUsersAdapter extends BaseAdapter<ZoomUser, ZoomConfiguration> {
     attributes.add(AttributeBuilder.build(DEPARTMENT.name(), user.getDepartment()));
     attributes.add(AttributeBuilder.build(JOB_TITLE.name(), user.getJobTitle()));
     attributes.add(AttributeBuilder.build(MANAGER.name(), user.getManager()));
+    attributes.add(AttributeBuilder.build(COST_CENTER.name(), user.getCostCenter()));
+    attributes.add(AttributeBuilder.build(DISPLAY_NAME.name(), user.getDisplayName()));
+    attributes.add(AttributeBuilder.build(ROLE_ID.name(), user.getRoleId()));
+    attributes.add(AttributeBuilder.build(ROLE_NAME.name(), user.getRoleName()));
+    attributes.add(AttributeBuilder.build(USE_PMI.name(), user.getUsePmi()));
+    attributes.add(AttributeBuilder.build(PRONOUNS.name(), user.getPronouns()));
+    attributes.add(AttributeBuilder.build(PRONOUNS_OPTION.name(), user.getPronounsOption()));
+    attributes.add(AttributeBuilder.build(EMPLOYEE_UNIQUE_ID.name(), user.getEmployeeUniqueId()));
+    attributes.add(AttributeBuilder.build(PERSONAL_MEETING_URL.name(), user.getPersonalMeetingUrl()));
+    attributes.add(AttributeBuilder.build(VANITY_URL.name(), user.getVanityUrl()));
+    attributes.add(AttributeBuilder.build(PIC_URL.name(), user.getPicUrl()));
+    attributes.add(AttributeBuilder.build(ACCOUNT_ID.name(), user.getAccountId()));
+    attributes.add(AttributeBuilder.build(LAST_CLIENT_VERSION.name(), user.getLastClientVersion()));
+    attributes.add(AttributeBuilder.build(JID.name(), user.getJid()));
     attributes.add(AttributeBuilder.build(LANGUAGE.name(), user.getLanguage()));
     attributes.add(AttributeBuilder.build(TIME_ZONE.name(), user.getTimezone()));
 
