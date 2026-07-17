@@ -43,8 +43,10 @@ public class ZoomUsersInvocator implements DriverInvocator<ZoomDriver, ZoomUser>
     ZoomUser user = null;
     String id = null;
     // Attempt to Create the User
-    UserCreationRequest requestData =
-        new UserCreationRequest(UserCreationType.CREATE.getZoomName(), zoomUser);
+    String configuredAction = driver.getConfiguration().getUserCreateAction();
+    String actionName =
+        resolveCreateAction(StringUtils.isBlank(configuredAction) ? null : configuredAction.trim());
+    UserCreationRequest requestData = new UserCreationRequest(actionName, zoomUser);
 
     RestRequest request =
         new RestRequest.Builder<>(ZoomUserCreateResponse.class)
@@ -743,5 +745,22 @@ public class ZoomUsersInvocator implements DriverInvocator<ZoomDriver, ZoomUser>
       }
     }
     return statusCode;
+  }
+
+  private String resolveCreateAction(String configuredAction) {
+    if (configuredAction == null) {
+      return UserCreationType.CREATE.getZoomName();
+    }
+    for (UserCreationType type : UserCreationType.values()) {
+      if (type.getZoomName().equalsIgnoreCase(configuredAction)) {
+        return type.getZoomName();
+      }
+    }
+    Logger.warn(
+        this,
+        String.format(
+            "Unrecognized userCreateAction '%s', falling back to '%s'",
+            configuredAction, UserCreationType.CREATE.getZoomName()));
+    return UserCreationType.CREATE.getZoomName();
   }
 }

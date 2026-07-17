@@ -34,14 +34,15 @@ Connector versions 4.0.1 and above support OAuth2 for authentication. Prior JWT 
 
 * Connector operation requires that you have at least a Zoom Pro Account. See [https://zoom.us/pricing](https://zoom.us/pricing) for more information.
 * Basic Free Zoom accounts have rate limits which prevent normal operation of the connector. See [https://developers.zoom.us/docs/api/rest/rate-limits/](https://developers.zoom.us/docs/api/rest/rate-limits/) for more information.
-* The connector currently supports the default create user action. We expect _custCreate_, _autoCreate_, and _ssoCreate_ to be available in a future release.
-* The default create action is to set the user in pending status until activation is complete.
+* The connector currently supports _create_, _custCreate_, _autoCreate_, and _ssoCreate_.
+* The default _create_ action is to set the user in pending status until activation is complete.
 * The default create action requires the user to activate their zoom account by verifying their email address. Until activation is completed the account remains in 'pending' status.
 * When a user is in a 'pending' status, the connector can use the API to lookup a user by ID or email address. However, the data returned is minimal or empty.
 * A user’s information cannot be updated when the status is pending.
 * A user’s information can be updated and retrieved when the status is active.
 * A user’s information can be retrieved but not updated when the status is inactive
 * A user’s information can only be updated when the account is activated or reactivated.
+* Other create states have their own limitations and restrictions please read the Zoom API documentation.
 
 
 # Getting started

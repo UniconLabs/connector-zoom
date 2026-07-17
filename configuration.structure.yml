@@ -42,4 +42,9 @@ custom:
           default: 'false'
           display: 'Entitlement Deletion Enabled'
           help: 'Enables the connector''s group deletion capability allowing the automated removal of Zoom groups via the Zoom API. The group removal capability is disabled by default.'
+      userCreateAction:
+        type: string
+        order: 3060
+        display: 'User Create Action'
+        help: 'Action type used when creating Zoom users. Valid values: create, autoCreate, custCreate, ssoCreate. Defaults to create if not set.'
 
