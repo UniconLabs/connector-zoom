@@ -15,7 +15,6 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id "com.google.cloud.artifactregistry.gradle-plugin" version "${google_artifact_plugin_version}"
-    id 'com.github.sherter.google-java-format' version '0.9'
     id 'idea'
 }
 
@@ -32,10 +31,6 @@ repositories {
     }
 }
 
-googleJavaFormat {
-    exclude 'generatedConfig/**/*.java'
-}
-
 idea {
     module {
         downloadJavadoc = true
@@ -44,9 +39,8 @@ idea {
 }
 apply plugin: 'com.exclamationlabs.connid.base.config.plugin'
 
-// Java Version 11
-sourceCompatibility = '1.11'
-targetCompatibility = '1.11'
+sourceCompatibility = '21'
+targetCompatibility = '21'
 
 def build_version = System.getenv('BUILD_NUMBER') == null ? System.currentTimeMillis() : System.getenv('BUILD_NUMBER')
 project.version="${project_version}-${build_version}"
@@ -66,8 +60,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'org.apache.httpcomponents:httpclient:4.5.14'
 
-    implementation 'commons-codec:commons-codec:1.15'
-
     implementation("com.exclamationlabs.connid:connector-base:${base_connector_version}-+") {
         exclude group: 'net.tirasa.connid', module: 'connector-framework'
     }
@@ -78,13 +70,14 @@ dependencies {
 
     testImplementation 'com.evolveum.polygon:connector-common:1.5.3.0-SNAPSHOT'
 
+    // Generated config code uses javax.validation; keep the API on the compile classpath
+    compileOnly "javax.validation:validation-api:2.0.1.Final"
+
     constraints {
         implementation("org.apache.commons:commons-lang3:3.18.0")
-        implementation("com.fasterxml.jackson.core:jackson-core:2.15.0")
+        implementation("com.fasterxml.jackson.core:jackson-core:2.18.0")
+        implementation("commons-codec:commons-codec:1.17.1")
     }
-
-    implementation "javax.validation:validation-api:2.0.1.Final"
-    implementation "org.hibernate.validator:hibernate-validator:6.2.5.Final"
 
 }
 
@@ -134,7 +127,9 @@ task fatJar(type: Jar) {
 
     from sourceSets.main.output
 
-    from(configurations.runtimeClasspath) {
+    from(configurations.runtimeClasspath.collect {
+        if (it.isFile() && !it.canonicalPath.contains("connector-framework")) it
+    }) {
         into "lib"
     }
 
@@ -150,11 +145,9 @@ task fatJar(type: Jar) {
 }
 
 task thinJar(type: Jar) {
-
-    archiveClassifier = thinClassifierName
-    archiveName("${project.name}-${project.version}-${thinClassifierName}.jar")
+    archiveClassifier.set(thinClassifierName)
+    archiveFileName.set("${project.name}-${project.version}-${thinClassifierName}.jar")
     from 'build/classes/java/main'
-
 }
 
 thinJar.dependsOn('compileJava')
